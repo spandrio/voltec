@@ -13,11 +13,6 @@ use Slim\Psr7\Response as SlimResponse;
  *
  * Protege rutas que requieren que el usuario haya iniciado sesión.
  * Se agrega individualmente a cada ruta que lo necesite con ->add(authMiddleware(...)).
- *
- * Si no hay sesión activa:
- *  - a los pedidos que esperan JSON (fetch de las vistas de edición/borrado) les
- *    responde 401 en JSON.
- *  - al resto (navegación normal del navegador) los redirige a /auth/login.
  */
 function authMiddleware(Request $request, RequestHandler $handler): Response
 {
@@ -25,13 +20,17 @@ function authMiddleware(Request $request, RequestHandler $handler): Response
     session_start();
   }
 
-  if (!isset($_SESSION['user_id'])) {
-    $aceptaJson = str_contains($request->getHeaderLine('Accept'), 'application/json')
+  $userId = $_SESSION['user_id'] ?? null;
+
+  if ($userId === null || $userId === '') {
+    // Las vistas de editar/borrar llaman a estas rutas con fetch() y esperan
+    // JSON, así que un redirect normal no les sirve: si no, el fetch termina
+    // devolviendo el HTML del login como si fuera la respuesta buena.
+    $esFetch = str_contains($request->getHeaderLine('Accept'), 'application/json')
       || str_contains($request->getHeaderLine('Content-Type'), 'application/json');
 
-    $response = new SlimResponse();
-
-    if ($aceptaJson) {
+    if ($esFetch) {
+      $response = new SlimResponse();
       $response->getBody()->write(json_encode([
         'error' => 'No autenticado. Iniciá sesión para continuar.',
       ]));
@@ -43,10 +42,12 @@ function authMiddleware(Request $request, RequestHandler $handler): Response
 
     $volverA = urlencode((string) $request->getUri()->getPath());
 
-    return $response
+    return (new SlimResponse())
       ->withHeader('Location', "/auth/login?redirect={$volverA}")
       ->withStatus(302);
   }
+
+  $request = $request->withAttribute('user_id', $userId);
 
   return $handler->handle($request);
 }
