@@ -6,7 +6,6 @@ use Dotenv\Dotenv;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-// Cargar variables de entorno desde el .env
 Dotenv::createImmutable(__DIR__ . '/..')->safeLoad();
 
 $env = $_ENV["APP_ENV"] ?? "prod";
@@ -18,7 +17,6 @@ if (!in_array($env, $allowedEnvs, true)) {
 
 $debug = $env === "dev";
 
-// Sesiones PHP, usadas por el login (TP N°12)
 if (session_status() === PHP_SESSION_NONE) {
   session_start();
 }
@@ -27,15 +25,8 @@ require_once __DIR__ . '/database/database.php';
 require_once __DIR__ . '/middlewares/logMiddleware.php';
 require_once __DIR__ . '/middlewares/authMiddleware.php';
 
-// Conexión / helper de base de datos, compartido por todas las rutas
 $db = new Database();
 
-/**
- * Valida y normaliza los datos de un producto recibidos por POST o PUT.
- * Se usa tanto para crear (TP N°11) como para editar.
- *
- * @return array{0: array<int, string>, 1: array<string, mixed>} [$errores, $valores]
- */
 function validarProducto(array $data): array
 {
   $errores = [];
@@ -80,38 +71,24 @@ function validarProducto(array $data): array
   return [$errores, $valores];
 }
 
-// Crear la aplicacion de Slim
 $app = AppFactory::create();
 
-// Necesario para poder leer $request->getParsedBody() en los POST/PUT (form-urlencoded y JSON)
 $app->addBodyParsingMiddleware();
 
-// Middleware global de logging (TP N°12): registra cada request en consola y en storage/logs/app.log
 $app->add(logMiddleware(...));
 
-// Crear el motor de plantillas
 $renderer = new PhpRenderer(
   templatePath: __DIR__ . "/views",
-  attributes: ["title" => "PDI | Slim Template 2026"],
+  attributes: ["title" => "Voltec Ergon"],
 );
 
-// Ruta/Vista principal
 $app->get("/", function ($request, $response) use ($renderer) {
   return view($renderer, $response, "index.php");
 });
 
-
-// ============================================================
-// ENTIDAD: productos (TP N°11 | Transacciones)
-// CRUD completo contra la base de datos, con transacciones en
-// las operaciones de escritura (POST, PUT, DELETE).
-// ============================================================
-
-// Listado de productos
 $app->get("/entidad", function ($request, $response) use ($renderer, $db) {
   $totalDisponible = (int) $db->getConnection()->query("SELECT COUNT(*) FROM productos")->fetchColumn();
 
-  // Query param ?limit= — solo se aplica si es un entero positivo
   $limitParam = $request->getQueryParams()["limit"] ?? null;
   $limit = null;
 
@@ -144,7 +121,6 @@ $app->get("/entidad", function ($request, $response) use ($renderer, $db) {
   ]);
 });
 
-// Formulario para crear un producto — requiere sesión iniciada
 $app->get("/entidad/create", function ($request, $response) use ($renderer, $db) {
   $categorias = $db->getConnection()->query("SELECT id, nombre FROM categorias ORDER BY nombre")->fetchAll();
 
@@ -153,7 +129,6 @@ $app->get("/entidad/create", function ($request, $response) use ($renderer, $db)
   ]);
 })->add(authMiddleware(...));
 
-// Formulario para editar un producto existente — requiere sesión iniciada
 $app->get("/entidad/update/{id}", function ($request, $response, $args) use ($renderer, $db) {
   $id = $args["id"];
 
@@ -177,7 +152,6 @@ $app->get("/entidad/update/{id}", function ($request, $response, $args) use ($re
   ]);
 })->add(authMiddleware(...));
 
-// Detalle de un producto
 $app->get("/entidad/{id}", function ($request, $response, $args) use ($renderer, $db) {
   $id = $args["id"];
 
@@ -201,7 +175,6 @@ $app->get("/entidad/{id}", function ($request, $response, $args) use ($renderer,
   return view($renderer, $response, "entidad/show.php", ["producto" => $producto]);
 });
 
-// Recibe el formulario de creación y lo guarda en la base de datos — requiere sesión iniciada
 $app->post("/entidad", function ($request, $response) use ($renderer, $db) {
   $data = $request->getParsedBody() ?? [];
 
@@ -237,8 +210,6 @@ $app->post("/entidad", function ($request, $response) use ($renderer, $db) {
   return $response->withHeader("Location", "/entidad/{$id}")->withStatus(303);
 })->add(authMiddleware(...));
 
-// Actualiza un producto existente — requiere sesión iniciada.
-// El formulario de update.php lo llama por fetch() en JSON, ya que un <form> HTML no soporta PUT.
 $app->put("/entidad/{id}", function ($request, $response, $args) use ($db) {
   $id = (int) $args["id"];
   $data = $request->getParsedBody() ?? [];
@@ -280,8 +251,6 @@ $app->put("/entidad/{id}", function ($request, $response, $args) use ($db) {
   return $response->withHeader("Content-Type", "application/json")->withStatus(200);
 })->add(authMiddleware(...));
 
-// Elimina un producto — requiere sesión iniciada.
-// Igual que el update, se llama por fetch() ya que un <button> HTML no soporta DELETE.
 $app->delete("/entidad/{id}", function ($request, $response, $args) use ($db) {
   $id = (int) $args["id"];
 
@@ -301,10 +270,6 @@ $app->delete("/entidad/{id}", function ($request, $response, $args) use ($db) {
   return $response->withHeader("Content-Type", "application/json")->withStatus(200);
 })->add(authMiddleware(...));
 
-
-// ============================================================
-// AUTH: registro, login y logout (TP N°12 | Middlewares)
-// ============================================================
 
 $app->get("/auth/register", function ($request, $response) use ($renderer) {
   return view($renderer, $response, "auth/register.php");
@@ -406,7 +371,6 @@ $app->post("/auth/login", function ($request, $response) use ($renderer, $db) {
     ]);
   }
 
-  // Evita fijación de sesión: se genera un id de sesión nuevo al loguear
   session_regenerate_id(true);
   $_SESSION["user_id"] = $usuario["id"];
   $_SESSION["user_nombre"] = $usuario["nombre"];
@@ -416,8 +380,6 @@ $app->post("/auth/login", function ($request, $response) use ($renderer, $db) {
   return $response->withHeader("Location", $destino)->withStatus(303);
 });
 
-// No pedido explícitamente por la consigna, pero necesario para poder probar
-// el flujo de login/logout de punta a punta.
 $app->get("/auth/logout", function ($request, $response) {
   $_SESSION = [];
   session_destroy();

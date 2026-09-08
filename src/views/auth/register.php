@@ -1,9 +1,4 @@
 <?php
-/**
- * views/auth/register.php
- * Renderizado por PhpRenderer en GET /auth/register y, si falla la validación, en POST /auth/register.
- * Variables disponibles: $errores (array), $old (array) — ambas opcionales.
- */
 $errores = $errores ?? [];
 $old = $old ?? [];
 ?>
@@ -52,7 +47,7 @@ input:focus{outline:none;border-color:var(--blue-brand);background:#fff;}
 </head>
 <body>
   <div class="card">
-    <div class="brand"><div class="mark"></div><span>VOLTEC ERGON</span></div>
+    <a href="/" style="text-decoration:none;"><div class="brand"><div class="mark"></div><span>VOLTEC ERGON</span></div></a>
     <span class="eyebrow">Nueva cuenta</span>
     <h1>Crear cuenta</h1>
 

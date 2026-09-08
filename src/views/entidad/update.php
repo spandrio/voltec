@@ -1,12 +1,4 @@
 <?php
-/**
- * views/entidad/update.php
- * Renderizado por PhpRenderer en GET /entidad/update/{id}.
- * Variables disponibles: $producto (array), $categorias (array), $errores (array).
- *
- * El formulario HTML no puede enviar verbos PUT, así que el submit se
- * intercepta con JS y se manda por fetch() como PUT a /entidad/{id}.
- */
 $producto = $producto ?? [];
 $categorias = $categorias ?? [];
 $errores = $errores ?? [];
@@ -16,7 +8,7 @@ $errores = $errores ?? [];
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Editar producto — Voltec Ergon</title>
+<title>Editar módulo — Voltec Ergon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -61,9 +53,9 @@ textarea{resize:vertical;min-height:90px;}
 </head>
 <body>
   <div class="card">
-    <div class="brand"><div class="mark"></div><span>VOLTEC ERGON</span></div>
-    <span class="eyebrow">Editar entidad #<?= htmlspecialchars((string) $producto['id']) ?></span>
-    <h1>Editar producto</h1>
+    <a href="/" style="text-decoration:none;"><div class="brand"><div class="mark"></div><span>VOLTEC ERGON</span></div></a>
+    <span class="eyebrow">Catálogo Eco Smart Grid #<?= htmlspecialchars((string) $producto['id']) ?></span>
+    <h1>Editar módulo</h1>
 
     <div id="errores-js" class="errors" style="display:none;">
       <strong>Revisá estos datos:</strong>
@@ -82,7 +74,7 @@ textarea{resize:vertical;min-height:90px;}
     <?php endif; ?>
 
     <form id="form-editar" method="POST" action="/entidad/<?= htmlspecialchars((string) $producto['id']) ?>">
-      <label for="nombre">Nombre del producto</label>
+      <label for="nombre">Nombre del módulo</label>
       <input type="text" id="nombre" name="nombre" value="<?= htmlspecialchars($producto['nombre'] ?? '') ?>" required>
 
       <div class="row2">
@@ -98,7 +90,7 @@ textarea{resize:vertical;min-height:90px;}
         </div>
       </div>
 
-      <label for="categoria_id">Categoría</label>
+      <label for="categoria_id">Categoría del módulo</label>
       <select id="categoria_id" name="categoria_id">
         <option value="">Sin categoría</option>
         <?php foreach ($categorias as $categoria): ?>
@@ -115,7 +107,7 @@ textarea{resize:vertical;min-height:90px;}
       <div class="checkbox-row">
         <input type="checkbox" id="disponible" name="disponible" value="1"
           <?= !empty($producto['disponible']) ? 'checked' : '' ?>>
-        <label for="disponible">Disponible para la venta</label>
+        <label for="disponible">Disponible en stock</label>
       </div>
 
       <button type="submit" class="btn" id="btn-guardar">Guardar cambios</button>
@@ -125,8 +117,6 @@ textarea{resize:vertical;min-height:90px;}
   </div>
 
   <script>
-    // El HTML no soporta el verbo PUT en un <form>, así que el submit se
-    // intercepta acá y se envía por fetch como PUT en JSON.
     const form = document.getElementById('form-editar');
     const btn = document.getElementById('btn-guardar');
     const erroresBox = document.getElementById('errores-js');
@@ -164,7 +154,7 @@ textarea{resize:vertical;min-height:90px;}
         }
 
         if (!res.ok) {
-          const errores = data.errores || [data.error || 'No se pudo guardar el producto.'];
+          const errores = data.errores || [data.error || 'No se pudo guardar el módulo.'];
           erroresLista.innerHTML = errores.map((e) => `<li>${e}</li>`).join('');
           erroresBox.style.display = 'block';
           btn.disabled = false;

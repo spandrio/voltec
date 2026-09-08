@@ -1,9 +1,4 @@
 <?php
-/**
- * views/entidad/show.php
- * Renderizado por PhpRenderer en GET /entidad/{id}.
- * Variables disponibles: $producto (array) con la categoría ya resuelta en $producto['categoria_nombre'].
- */
 $producto = $producto ?? [];
 $precioFmt = number_format((float) ($producto['precio'] ?? 0), 2, ',', '.');
 ?>
@@ -12,7 +7,7 @@ $precioFmt = number_format((float) ($producto['precio'] ?? 0), 2, ',', '.');
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><?= htmlspecialchars($producto['nombre'] ?? 'Producto') ?> — Voltec Ergon</title>
+<title><?= htmlspecialchars($producto['nombre'] ?? 'Módulo') ?> — Voltec Ergon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -55,8 +50,8 @@ h1{font-family:var(--display);font-size:26px;color:var(--navy-deep);margin-botto
 </head>
 <body>
   <div class="card">
-    <div class="brand"><div class="mark"></div><span>VOLTEC ERGON</span></div>
-    <span class="eyebrow">Detalle de entidad #<?= htmlspecialchars((string) $producto['id']) ?></span>
+    <a href="/" style="text-decoration:none;"><div class="brand"><div class="mark"></div><span>VOLTEC ERGON</span></div></a>
+    <span class="eyebrow">Catálogo Eco Smart Grid #<?= htmlspecialchars((string) $producto['id']) ?></span>
     <h1>
       <?= htmlspecialchars($producto['nombre'] ?? '') ?>
       <span class="badge <?= !empty($producto['disponible']) ? 'ok' : 'no' ?>">
@@ -78,10 +73,9 @@ h1{font-family:var(--display);font-size:26px;color:var(--navy-deep);margin-botto
   </div>
 
   <script>
-    // El HTML no soporta el verbo DELETE en un botón, así que se manda por fetch.
     document.getElementById('btn-eliminar').addEventListener('click', async (event) => {
       const btn = event.currentTarget;
-      if (!confirm('¿Seguro que querés eliminar este producto? Esta acción no se puede deshacer.')) {
+      if (!confirm('¿Seguro que querés eliminar este módulo? Esta acción no se puede deshacer.')) {
         return;
       }
 
@@ -101,7 +95,7 @@ h1{font-family:var(--display);font-size:26px;color:var(--navy-deep);margin-botto
 
         if (!res.ok) {
           const data = await res.json().catch(() => ({}));
-          alert(data.error || 'No se pudo eliminar el producto.');
+          alert(data.error || 'No se pudo eliminar el módulo.');
           btn.disabled = false;
           btn.textContent = 'Eliminar';
           return;

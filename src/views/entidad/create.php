@@ -1,9 +1,4 @@
 <?php
-/**
- * views/entidad/create.php
- * Renderizado por PhpRenderer en GET /entidad/create y, si falla la validación, en POST /entidad.
- * Variables disponibles: $categorias (array), $errores (array), $old (array).
- */
 $categorias = $categorias ?? [];
 $errores = $errores ?? [];
 $old = $old ?? [];
@@ -13,7 +8,7 @@ $old = $old ?? [];
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crear producto — Voltec Ergon</title>
+<title>Crear módulo — Voltec Ergon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -57,9 +52,9 @@ textarea{resize:vertical;min-height:90px;}
 </head>
 <body>
   <div class="card">
-    <div class="brand"><div class="mark"></div><span>VOLTEC ERGON</span></div>
-    <span class="eyebrow">Nueva entidad</span>
-    <h1>Nuevo producto</h1>
+    <a href="/" style="text-decoration:none;"><div class="brand"><div class="mark"></div><span>VOLTEC ERGON</span></div></a>
+    <span class="eyebrow">Catálogo Eco Smart Grid</span>
+    <h1>Nuevo módulo</h1>
 
     <?php if (!empty($errores)): ?>
       <div class="errors">
@@ -73,7 +68,7 @@ textarea{resize:vertical;min-height:90px;}
     <?php endif; ?>
 
     <form method="POST" action="/entidad">
-      <label for="nombre">Nombre del producto</label>
+      <label for="nombre">Nombre del módulo</label>
       <input type="text" id="nombre" name="nombre" placeholder="Ej: Toma inteligente Eco Smart Grid"
              value="<?= htmlspecialchars($old['nombre'] ?? '') ?>" required>
 
@@ -90,7 +85,7 @@ textarea{resize:vertical;min-height:90px;}
         </div>
       </div>
 
-      <label for="categoria_id">Categoría</label>
+      <label for="categoria_id">Categoría del módulo</label>
       <select id="categoria_id" name="categoria_id">
         <option value="">Sin categoría</option>
         <?php foreach ($categorias as $categoria): ?>
@@ -108,10 +103,10 @@ textarea{resize:vertical;min-height:90px;}
       <div class="checkbox-row">
         <input type="checkbox" id="disponible" name="disponible" value="1"
           <?= !isset($old['disponible']) || $old['disponible'] ? 'checked' : '' ?>>
-        <label for="disponible">Disponible para la venta</label>
+        <label for="disponible">Disponible en stock</label>
       </div>
 
-      <button type="submit" class="btn">Crear producto</button>
+      <button type="submit" class="btn">Crear módulo</button>
     </form>
 
     <a class="link-back" href="/entidad">← Volver al listado</a>
