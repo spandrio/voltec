@@ -44,7 +44,10 @@ h1{font-family:var(--display);font-size:26px;color:var(--navy-deep);}
 .item .id{font-family:var(--mono);font-size:11px;color:var(--blue-brand);background:rgba(0,87,214,.08);
   padding:3px 9px;border-radius:6px;margin-bottom:6px;display:inline-block;}
 .item .name{font-family:var(--display);font-size:16px;color:var(--navy-deep);font-weight:600;}
-.item .price{font-family:var(--mono);font-size:16px;font-weight:600;color:var(--green-energy);white-space:nowrap;}
+.item .meta{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);margin-top:4px;}
+.item .price{font-family:var(--mono);font-size:16px;font-weight:600;color:var(--green-energy);white-space:nowrap;text-align:right;}
+.badge{display:inline-block;font-family:var(--mono);font-size:10.5px;padding:2px 8px;border-radius:12px;font-weight:600;margin-top:6px;}
+.badge.no{background:rgba(214,69,69,.1);color:#D64545;}
 .empty{background:#fff;border:1px dashed var(--line);border-radius:12px;padding:36px;text-align:center;
   color:var(--ink-soft);font-size:14px;}
 .hint{margin-top:26px;font-size:12px;color:var(--ink-soft);}
@@ -60,7 +63,7 @@ h1{font-family:var(--display);font-size:26px;color:var(--navy-deep);}
         <span class="eyebrow">Listado de entidad</span>
         <h1>Productos</h1>
       </div>
-      <a class="btn" href="/create/entidad">+ Nuevo producto</a>
+      <a class="btn" href="/entidad/create">+ Nuevo producto</a>
     </div>
 
     <p class="count">
@@ -74,12 +77,19 @@ h1{font-family:var(--display);font-size:26px;color:var(--navy-deep);}
     <?php else: ?>
       <div class="list">
         <?php foreach ($productos as $producto): ?>
-          <a class="item" href="/entidad/<?= urlencode($producto['id']) ?>">
+          <a class="item" href="/entidad/<?= urlencode((string) $producto['id']) ?>">
             <div>
-              <span class="id">#<?= htmlspecialchars($producto['id']) ?></span>
-              <div class="name"><?= htmlspecialchars($producto['name']) ?></div>
+              <span class="id">#<?= htmlspecialchars((string) $producto['id']) ?></span>
+              <div class="name"><?= htmlspecialchars($producto['nombre']) ?></div>
+              <div class="meta">
+                Stock: <?= htmlspecialchars((string) $producto['stock']) ?>
+                · <?= htmlspecialchars($producto['categoria_nombre'] ?? 'Sin categoría') ?>
+                <?php if (empty($producto['disponible'])): ?>
+                  <span class="badge no">No disponible</span>
+                <?php endif; ?>
+              </div>
             </div>
-            <div class="price">$ <?= number_format((float) $producto['price'], 0, ',', '.') ?></div>
+            <div class="price">$ <?= number_format((float) $producto['precio'], 0, ',', '.') ?></div>
           </a>
         <?php endforeach; ?>
       </div>

@@ -189,6 +189,10 @@ final class SqlMigrationRunner
     $pdo->beginTransaction();
 
     try {
+      // En MySQL, las sentencias DDL (CREATE/ALTER/DROP TABLE) hacen un
+      // commit implícito, por lo que la transacción puede haber quedado
+      // cerrada antes de llegar acá. Por eso se verifica con inTransaction()
+      // en lugar de asumir que sigue abierta.
       $pdo->exec($sql);
 
       $stmt = $pdo->prepare(sprintf(
@@ -200,7 +204,9 @@ final class SqlMigrationRunner
         'filename' => $migration['filename'],
       ]);
 
-      $pdo->commit();
+      if ($pdo->inTransaction()) {
+        $pdo->commit();
+      }
 
       fwrite(STDOUT, 'Aplicada ' . $migration['filename'] . "\n");
     } catch (Throwable $throwable) {
