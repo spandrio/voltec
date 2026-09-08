@@ -1,5 +1,3 @@
--- Migración 5: crea la tabla de usuarios para el sistema de autenticación (TP N°12)
-
 CREATE TABLE usuarios (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,

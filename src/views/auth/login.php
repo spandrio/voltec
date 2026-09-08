@@ -1,9 +1,4 @@
 <?php
-/**
- * views/auth/login.php
- * Renderizado por PhpRenderer en GET /auth/login y, si falla la validación, en POST /auth/login.
- * Variables disponibles: $errores (array), $old (array), $registrado (bool), $redirect (string|null).
- */
 $errores = $errores ?? [];
 $old = $old ?? [];
 $registrado = $registrado ?? false;
@@ -56,7 +51,7 @@ input:focus{outline:none;border-color:var(--blue-brand);background:#fff;}
 </head>
 <body>
   <div class="card">
-    <div class="brand"><div class="mark"></div><span>VOLTEC ERGON</span></div>
+    <a href="/" style="text-decoration:none;"><div class="brand"><div class="mark"></div><span>VOLTEC ERGON</span></div></a>
     <span class="eyebrow">Acceso</span>
     <h1>Iniciar sesión</h1>
 

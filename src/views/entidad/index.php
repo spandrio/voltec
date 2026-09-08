@@ -12,7 +12,7 @@ $totalDisponible = $totalDisponible ?? count($productos);
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Listado de productos — Voltec Ergon</title>
+<title>Catálogo de módulos — Voltec Ergon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -56,24 +56,24 @@ h1{font-family:var(--display);font-size:26px;color:var(--navy-deep);}
 </head>
 <body>
   <div class="wrap">
-    <div class="brand"><div class="mark"></div><span>VOLTEC ERGON</span></div>
+    <a href="/" style="text-decoration:none;"><div class="brand"><div class="mark"></div><span>VOLTEC ERGON</span></div></a>
 
     <div class="top-row">
       <div>
-        <span class="eyebrow">Listado de entidad</span>
-        <h1>Productos</h1>
+        <span class="eyebrow">Catálogo Eco Smart Grid</span>
+        <h1>Módulos</h1>
       </div>
-      <a class="btn" href="/entidad/create">+ Nuevo producto</a>
+      <a class="btn" href="/entidad/create">+ Nuevo módulo</a>
     </div>
 
     <p class="count">
-      Mostrando <?= count($productos) ?> de <?= $totalDisponible ?> producto<?= $totalDisponible === 1 ? '' : 's' ?>
+      Mostrando <?= count($productos) ?> de <?= $totalDisponible ?> módulo<?= $totalDisponible === 1 ? '' : 's' ?>
       <?= isset($limit) ? " (limit={$limit})" : "" ?>
     </p>
     <br>
 
     <?php if (empty($productos)): ?>
-      <div class="empty">No hay productos para mostrar.</div>
+      <div class="empty">Todavía no hay módulos cargados en el catálogo.</div>
     <?php else: ?>
       <div class="list">
         <?php foreach ($productos as $producto): ?>

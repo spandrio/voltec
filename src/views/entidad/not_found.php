@@ -1,10 +1,4 @@
 <?php
-/**
- * views/entidad/not_found.php
- * Renderizado por PhpRenderer en GET /entidad/{id} cuando el id no existe en la base de datos.
- * La ruta responde con status 404.
- * Variables disponibles: $id (string|int).
- */
 $id = $id ?? '';
 ?>
 <!DOCTYPE html>
@@ -12,7 +6,7 @@ $id = $id ?? '';
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Producto no encontrado — Voltec Ergon</title>
+<title>Módulo no encontrado — Voltec Ergon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -41,10 +35,10 @@ p{color:var(--ink-soft);font-size:14.5px;margin-bottom:26px;}
 </head>
 <body>
   <div class="card">
-    <div class="brand"><div class="mark"></div><span>VOLTEC ERGON</span></div>
+    <a href="/" style="text-decoration:none;"><div class="brand"><div class="mark"></div><span>VOLTEC ERGON</span></div></a>
     <span class="code">404</span>
-    <h1>Producto no encontrado</h1>
-    <p>No existe ningún producto con el id <strong><?= htmlspecialchars((string) $id) ?></strong>.</p>
+    <h1>Módulo no encontrado</h1>
+    <p>No existe ningún módulo con el id <strong><?= htmlspecialchars((string) $id) ?></strong> en el catálogo.</p>
     <a class="link-back" href="/entidad">← Volver al listado</a>
   </div>
 </body>

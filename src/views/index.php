@@ -280,8 +280,8 @@ section{padding:88px 0;}
 .cta-band .btn-primary:hover{background:var(--amber-alert);color:var(--navy-deep);}
 
 footer{padding:56px 0 30px;}
-.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:36px;border-bottom:1px solid var(--line);}
-@media(max-width:800px){.footer-grid{grid-template-columns:1fr 1fr;}}
+.footer-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr 1fr;gap:40px;padding-bottom:36px;border-bottom:1px solid var(--line);}
+@media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;}}
 .footer-grid h5{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);margin-bottom:14px;}
 .footer-grid a,.footer-grid li{display:block;font-size:14px;color:var(--ink-soft);margin-bottom:9px;}
 .footer-grid a:hover{color:var(--blue-brand);}
@@ -308,8 +308,10 @@ footer{padding:56px 0 30px;}
       <a href="#impacto">Impacto ambiental</a>
       <a href="#equipo">Equipo</a>
       <a href="#cronograma">Cronograma</a>
+      <a href="/entidad">Catálogo de módulos</a>
     </nav>
     <div class="nav-cta">
+      <a href="/auth/login" class="btn btn-ghost">Ingresar</a>
       <a href="#contacto" class="btn btn-primary">Solicitar auditoría</a>
     </div>
   </div>
@@ -322,7 +324,7 @@ footer{padding:56px 0 30px;}
       <h1>La energía que se<br>escapa, ahora <em>se ve</em>.</h1>
       <p class="lead">Voltec Ergon desarrolló un sistema de monitoreo eléctrico en tiempo real que detecta consumo vampiro, calcula tu huella de carbono y te deja apagar tus artefactos desde el celular — antes de que llegue la factura.</p>
       <div class="hero-actions">
-        <a href="#producto" class="btn btn-primary">Ver el dispositivo</a>
+        <a href="/entidad" class="btn btn-primary">Ver catálogo de módulos</a>
         <a href="#funcionamiento" class="btn btn-ghost">Cómo funciona →</a>
       </div>
       <div class="hero-stats">
@@ -556,7 +558,7 @@ footer{padding:56px 0 30px;}
       <h2>¿Listos para ver cuánto se está escapando?</h2>
       <p>Solicitá una auditoría energética con Eco Smart Grid y empezá a monitorear en tiempo real desde Energhost.</p>
     </div>
-    <a href="#" class="btn btn-primary">Solicitar auditoría energética</a>
+    <a href="/entidad" class="btn btn-primary">Solicitar auditoría energética</a>
   </div>
 </section>
 
@@ -587,6 +589,12 @@ footer{padding:56px 0 30px;}
         <a href="#">Energhost — Dashboard</a>
         <a href="#">Alertas de consumo</a>
         <a href="#">Control remoto</a>
+      </div>
+      <div>
+        <h5>Panel interno</h5>
+        <a href="/entidad">Catálogo de módulos</a>
+        <a href="/auth/login">Iniciar sesión</a>
+        <a href="/auth/register">Crear cuenta</a>
       </div>
     </div>
     <div class="footer-bottom">

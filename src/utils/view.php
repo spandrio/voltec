@@ -30,6 +30,12 @@ function view(
     ? $renderer->fetch($layout, [...$data, "content" => $page])
     : $page;
 
+  if (stripos(ltrim($content), "<!doctype") === 0 || stripos($content, "<html") !== false) {
+    $response->getBody()->write($content);
+
+    return $response;
+  }
+
   return $renderer->render($response, "layouts/base.php", [
     ...$data,
     "content" => $content,
