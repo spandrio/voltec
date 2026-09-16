@@ -38,7 +38,10 @@ $renderer = new PhpRenderer(
   attributes: ["title" => "Voltec Ergon"],
 );
 
-require __DIR__ . '/routes/site.routes.php';
+$app->get("/", function ($request, $response) use ($renderer) {
+  return view($renderer, $response, "index.php");
+});
+
 require __DIR__ . '/routes/productos.routes.php';
 require __DIR__ . '/routes/auth.routes.php';
 
